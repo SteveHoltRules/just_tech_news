@@ -23,13 +23,14 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    //define an email column
     email: {
       type: DataTypes.STRING,
       allowNull: false,
       // there cannot be any duplicate email values in this table
       unique: true,
       // if allowNull is set to false, we can run our data through validators before creating the table data
-      valudate: {
+      validate: {
         isEmail: true
       }
     },
@@ -53,9 +54,9 @@ User.init(
     //don't pluralize name of database table
     freezeTableName: true,
     //use underscores instead of camel-casing (i.e. 'comment_text' and not 'commentText')
-    userscore: true,
+    underscore: true,
     //make it so our model name stays lowercase in the database
-    modelName: "user",
+    modelName: 'user',
   }
 );
 
