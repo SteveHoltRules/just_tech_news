@@ -1,5 +1,6 @@
 const router = require("express").Router();
-const { Post, User } = require("../../models");
+const sequelize = require("../../config/connection");
+const { Post, User, Vote } = require("../../models");
 
 // get all users
 router.get("/", (req, res) => {
@@ -19,6 +20,18 @@ router.get("/:id", (req, res) => {
     where: {
       id: req.params.id,
     },
+    include: [
+      {
+        model: Post,
+        attributes: ['id', 'title', 'post_url', 'create_at']
+      },
+      {
+        model: Post,
+        attributes: ['title'],
+        through: Vote,
+        as: 'voted_posts'
+      }
+    ]
   })
     .then((dbUserData) => {
       if (!dbUserData) {
