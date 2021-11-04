@@ -46,7 +46,7 @@ router.get("/:id", (req, res) => {
       "created_at",
       [
         sequelize.literal(
-          "SELECT COUNT(*) FROM vote WHERE post.id = vote.post_id"
+          "(SELECT COUNT (*) FROM vote WHERE post.id = vote.post_id)"
         ),
         "vote_count",
       ],
@@ -81,7 +81,7 @@ router.post("/", (req, res) => {
     .then((dbPostData) => res.json(dbPostData))
     .catch((err) => {
       console.log(err);
-      res.status(50).json(err);
+      res.status(500).json(err);
     });
 });
 

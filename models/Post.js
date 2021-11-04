@@ -6,22 +6,25 @@ class Post extends Model {
     return models.Vote.create({
       user_id: body.user_id,
       post_id: body.post_id
-    }).then(()=> {
+    }).then(() => {
       return Post.findOne({
         where: {
           id: body.post_id,
         },
         attributes: [
-          'id',
-          'post_url',
-          'title',
-          'create_at',
+          "id",
+          "post_url",
+          "title",
+          "created_at",
           [
-            sequelize.literal('SELECT COUNT(*) FROM vote WHERE post.id = vote.post_id)'),'vote_count'
-          ]
-        ]
-      })
-    })
+            sequelize.literal(
+              "(SELECT COUNT (*) FROM vote WHERE post.id = vote.post_id)"
+            ),
+            "vote_count",
+          ],
+        ],
+      });
+    });
   }
 }
 
@@ -47,16 +50,16 @@ Post.init(
     user_id: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'user',
-        key: 'id'
-      }
-    }
+        model: "user",
+        key: "id",
+      },
+    },
   },
   {
     sequelize,
     freezeTableName: true,
     underscored: true,
-    modelName: 'post',
+    modelName: "post",
   }
 );
 
